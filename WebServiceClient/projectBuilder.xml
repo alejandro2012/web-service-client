@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="web-service-wsimport" basedir="." default="jar">
+
+    <property name="src.dir" value="src"/>
+    <property name="classes.dir" value="classes"/>
+    
+    <target name="init">
+		<mkdir dir="classes"/>
+		<mkdir dir="dist" />
+	</target>
+    
+    <target name="compile" description="Compiles the Task">   
+        <javac destdir="${classes.dir}" debug="true" srcdir="${src.dir}" includeantruntime="true">
+		</javac>
+    </target>
+   
+    <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport" >
+	</taskdef>
+                                
+     <target name="wsimport" >  
+    	<wsimport  wsdl="http://localhost:3030/add?wsdl"
+    	       destdir="${classes.dir}" 
+    	       sourcedestdir="${src.dir}"
+    	       verbose="true"
+    	       keep="true">
+    	</wsimport>
+    </target>  
+    	
+     <target name="jar" description="JARs the Task">
+        <jar destfile="${ant.project.name}.jar" basedir="${classes.dir}"/>
+    </target>
+    
+    <target name="clean" description="Delete all generated files">
+        <delete dir="${classes.dir}" failonerror="false"/>
+        <delete file="dist/${ant.project.name}.war"/>
+    </target>
+
+    
+</project>
